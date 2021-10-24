@@ -15,7 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\DragonFly.Context\DragonFly.Context.csproj" />
     <ProjectReference Include="..\DragonFly.Domain.Entities\DragonFly.Domain.Entities.csproj" />
+    <ProjectReference Include="..\DragonFly.Infrastructure.Data\DragonFly.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\DragonFly.Services.Interfaces\DragonFly.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\DragonFly.Services\DragonFly.Services.csproj" />
   </ItemGroup>
 
 

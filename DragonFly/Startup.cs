@@ -1,5 +1,9 @@
 using DragonFly.Context;
 using DragonFly.Domain.Entities;
+using DragonFly.Domain.Interfaces;
+using DragonFly.Infrastructure.Data;
+using DragonFly.Services;
+using DragonFly.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -69,6 +73,14 @@ namespace DragonFly
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
+
+
+            services.AddHttpContextAccessor();
+
+            //Dependency Injection part
+
+            services.AddTransient<IMembersInformationService, MembersInformationService>();
+            services.AddTransient<IMembersInformationRepository, MembersInformationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,7 +95,7 @@ namespace DragonFly
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/Swagger/v1/swagger.json", "Personal project");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Personal project");
             });
 
             app.UseHttpsRedirection();

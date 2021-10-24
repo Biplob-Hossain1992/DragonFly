@@ -1,11 +1,13 @@
 ﻿using DragonFly.Context;
 using DragonFly.Domain.Entities;
+using DragonFly.Domain.Entities.DataModel;
 using DragonFly.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DragonFly.Infrastructure.Data
 {
@@ -18,7 +20,15 @@ namespace DragonFly.Infrastructure.Data
             IOptions<ConnectionString> connectionStrings)
         {
             _sqlServerContext = sqlServerContext ?? throw new ArgumentNullException(nameof(sqlServerContext));
+            _httpContextAccessor = httpContextAccessor;
+            _connectionStrings = connectionStrings.Value;
+        }
 
+        public async Task<MembersInformation> AddMembersInformation(MembersInformation members)
+        {
+            await _sqlServerContext.MembersInformation.AddAsync(members);
+            await _sqlServerContext.SaveChangesAsync();
+            return members;
         }
     }
 }

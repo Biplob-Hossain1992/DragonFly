@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DragonFly.Domain.Interfaces\DragonFly.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\DragonFly.Services.Interfaces\DragonFly.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
