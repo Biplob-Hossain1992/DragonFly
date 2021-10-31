@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DragonFly.Context\DragonFly.Context.csproj" />
     <ProjectReference Include="..\DragonFly.Domain.Interfaces\DragonFly.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\DragonFly.Services.Interfaces\DragonFly.Services.Interfaces.csproj" />
   </ItemGroup>

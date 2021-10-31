@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace DragonFly.Controllers
 {
+    [Produces("application/json")]
+    [Route("api/Entry")]
+    [Authorize]
     public class EntryController : ControllerBase
     {
         private readonly IMembersInformationService _membersInformationService;

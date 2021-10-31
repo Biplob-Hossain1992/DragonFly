@@ -19,5 +19,6 @@ namespace DragonFly.Context
         }
 
         public DbSet<MembersInformation> MembersInformation { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }
