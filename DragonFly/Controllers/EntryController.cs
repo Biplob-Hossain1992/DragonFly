@@ -26,7 +26,7 @@ namespace DragonFly.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [Route("AddMembersInformation")]
         public async Task<IActionResult> AddMembersInformation([FromBody] MembersInformation members)
         {

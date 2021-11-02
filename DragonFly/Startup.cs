@@ -16,9 +16,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,6 +73,43 @@ namespace DragonFly
                     Version = "v1",
                     Description = "Personal project"
                 });
+
+                c.SwaggerDoc("v1.1", new OpenApiInfo { Title = "Versioned Api v1.1", Version = "v1.1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer { token }\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                    Reference = new OpenApiReference
+                        {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                        },
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header,
+
+                    },
+                    new List<string>()
+                    }
+                });
+
+                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                //// Set xml path
+                //c.IncludeXmlComments(xmlPath);
+
             });
             services.AddControllers();
             services.AddCors(c =>
@@ -83,8 +123,8 @@ namespace DragonFly
 
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
-            //var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            var key = Encoding.ASCII.GetBytes("This is My test Key");
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret); //get secret key from appsettings.json
+            //var key = Encoding.ASCII.GetBytes("This is My test Key");
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -114,6 +154,11 @@ namespace DragonFly
             //and passes it to the base constructor for DbContext.
 
             //Dependency Injection part
+
+            services.AddTransient<IJwtAuthenticationManager, JwtAuthenticationService>();
+
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
 
             services.AddTransient<IMembersInformationService, MembersInformationService>();
             services.AddTransient<IMembersInformationRepository, MembersInformationRepository>();
