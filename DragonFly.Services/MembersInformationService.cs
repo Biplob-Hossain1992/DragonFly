@@ -21,5 +21,10 @@ namespace DragonFly.Services
         {
             return await _membersInformationRepository.AddMembersInformation(members);
         }
+
+        public async Task<IEnumerable<MembersInformation>> GetAllMembersInformation(string mobile)
+        {
+            return await _membersInformationRepository.GetAllMembersInformation(mobile);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace DragonFly.Domain.Interfaces
     public interface IMembersInformationRepository
     {
         Task<MembersInformation> AddMembersInformation(MembersInformation members);
+        Task<IEnumerable<MembersInformation>> GetAllMembersInformation(string mobile);
     }
 }
