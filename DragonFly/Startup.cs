@@ -7,11 +7,13 @@ using DragonFly.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -43,6 +45,8 @@ namespace DragonFly
             _services = services;
             services.AddControllers();
 
+
+            // configure connection
             services.Configure<ConnectionString>(Configuration.GetSection("ConnectionString"));
             services.AddDbContext<SqlServerContext>(options => options.UseSqlServer(Configuration["ConnectionString:MsSqlConnection"]));
 
@@ -65,6 +69,7 @@ namespace DragonFly
                                             .AllowAnyMethod();
                     });
             });
+            // configure swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -143,6 +148,9 @@ namespace DragonFly
                 };
             });
 
+            //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // Or you can also register as follows
 
             services.AddHttpContextAccessor();
 
