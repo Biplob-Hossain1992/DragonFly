@@ -43,5 +43,28 @@ namespace DragonFly.Controllers
             }
             return response.ToHttpCreatedResponse();
         }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        //[AllowAnonymous]
+        [Route("AddMultipleMembersInformation")]
+        public async Task<IActionResult> AddMultipleMembersInformation([FromBody] List<MembersInformation> membersInformation)
+        {
+            var response = new ListResponseModel<MembersInformation>();
+            try
+            {
+                var data = await _membersInformationService.AddMultipleMembersInformation(membersInformation);
+                response.Model = data;
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.InnerException.Message.ToString();
+            }
+            return response.ToHttpCreatedResponse();
+        }
     }
 }

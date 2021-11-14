@@ -23,13 +23,13 @@ namespace DragonFly.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        [Route("GetAllMembersInformation/{mobile}")]
-        public async Task<IActionResult> GetAllMembersInformation(string mobile)
+        [Route("GetMembersInformationByMobile/{mobile}")]
+        public async Task<IActionResult> GetMembersInformationByMobile(string mobile)
         {
-            var response = new ListResponseModel<MembersInformation>();
+            var response = new SingleResponseModel<MembersInformationViewModel>();
             try
             {
-                var data = await _membersInformationService.GetAllMembersInformation(mobile);
+                var data = await _membersInformationService.GetMembersInformationByMobile(mobile);
                 response.Model = data;
             }
             catch (Exception ex)
@@ -38,6 +38,27 @@ namespace DragonFly.Controllers
                 response.ErrorMessage = "There was an internal error, Please contact to technical support";
             }
 
+            return response.ToHttpResponse();
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        [Route("GetAllMembersInformation")]
+        public async Task<IActionResult> GetAllMembersInformation()
+        {
+            var response = new ListResponseModel<MembersInformationViewModel>();
+            try
+            {
+                var data = await _membersInformationService.GetAllMembersInformation();
+                response.Model = data;
+            }
+            catch (Exception)
+            {
+                response.DidError = true;
+                response.ErrorMessage = "There was an internal error, Please contact to technical support";
+            }
             return response.ToHttpResponse();
         }
     }

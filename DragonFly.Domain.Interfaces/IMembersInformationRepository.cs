@@ -1,4 +1,5 @@
 ﻿using DragonFly.Domain.Entities.DataModel;
+using DragonFly.Domain.Entities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,8 @@ namespace DragonFly.Domain.Interfaces
     public interface IMembersInformationRepository
     {
         Task<MembersInformation> AddMembersInformation(MembersInformation members);
-        Task<IEnumerable<MembersInformation>> GetAllMembersInformation(string mobile);
+        Task<List<MembersInformation>> AddMultipleMembersInformation(List<MembersInformation> membersInformation);
+        Task<MembersInformationViewModel> GetMembersInformationByMobile(string mobile);
+        Task<IEnumerable<MembersInformationViewModel>> GetAllMembersInformation();
     }
 }
