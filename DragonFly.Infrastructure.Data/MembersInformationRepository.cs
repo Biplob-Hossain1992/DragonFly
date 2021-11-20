@@ -4,6 +4,7 @@ using DragonFly.Domain.Entities;
 using DragonFly.Domain.Entities.DataModel;
 using DragonFly.Domain.Entities.ViewModel;
 using DragonFly.Domain.Interfaces;
+using EFCore.BulkExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -73,6 +74,42 @@ namespace DragonFly.Infrastructure.Data
                     Share = x.Share,
                     Amount = x.Amount
                 }).ToListAsync();
+        }
+
+        public async Task<MembersInformation> UpdateMemberInformation(MembersInformation members)
+        {
+            var entity = await _sqlServerContext.MembersInformation.FirstOrDefaultAsync(b => b.Mobile == members.Mobile);
+
+            if(entity != null)
+            {
+                entity.Name = members.Name;
+                entity.Address = members.Address;
+                entity.Share = members.Share;
+                entity.Amount = members.Amount;
+
+                if(_sqlServerContext.Entry(entity).State != EntityState.Unchanged)
+                {
+                    _sqlServerContext.Update(entity);
+                    await _sqlServerContext.SaveChangesAsync();
+                }
+                return entity;
+            }
+            return null;
+        }
+
+        public async Task<int> UpdateMultipleMembersInformation(List<MembersInformation> members)
+        {
+            var mobileNumbers = (from d in members
+                                 select d.Mobile).ToArray();
+
+            var entity = await _sqlServerContext.MembersInformation.AsNoTracking().Where(b => mobileNumbers.Contains(b.Mobile))
+                        .BatchUpdateAsync(x => new MembersInformation
+                        {
+                            Share = members.FirstOrDefault().Share,
+                            Amount = members.FirstOrDefault().Amount
+                        });
+
+            return 0;
         }
     }
 }

@@ -36,5 +36,10 @@ namespace DragonFly.Services
         {
             return await _membersInformationRepository.GetAllMembersInformation();
         }
+
+        public async Task<MembersInformation> UpdateMemberInformation(MembersInformation members)
+        {
+            return await _membersInformationRepository.UpdateMemberInformation(members);
+        }
     }
 }

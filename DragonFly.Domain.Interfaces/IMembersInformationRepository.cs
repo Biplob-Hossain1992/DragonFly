@@ -13,5 +13,6 @@ namespace DragonFly.Domain.Interfaces
         Task<List<MembersInformation>> AddMultipleMembersInformation(List<MembersInformation> membersInformation);
         Task<MembersInformationViewModel> GetMembersInformationByMobile(string mobile);
         Task<IEnumerable<MembersInformationViewModel>> GetAllMembersInformation();
+        Task<MembersInformation> UpdateMemberInformation(MembersInformation members);
     }
 }
