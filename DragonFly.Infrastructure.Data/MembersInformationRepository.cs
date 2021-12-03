@@ -97,7 +97,7 @@ namespace DragonFly.Infrastructure.Data
             return null;
         }
 
-        public async Task<int> UpdateMultipleMembersInformation(List<MembersInformation> members)
+        public async Task<int> UpdateBulkMembersInfo(List<MembersInformation> members)
         {
             var mobileNumbers = (from d in members
                                  select d.Mobile).ToArray();
@@ -109,6 +109,21 @@ namespace DragonFly.Infrastructure.Data
                             Amount = members.FirstOrDefault().Amount
                         });
 
+            if (entity > 0)
+            {
+                return 1;
+            }   
+            return 0;
+        }
+
+        public async Task<int> DeleteMemberInfo(string mobile)
+        {
+            var entity = await _sqlServerContext.MembersInformation.FirstOrDefaultAsync(m => m.Mobile.Equals(mobile));
+            if(entity != null)
+            {
+                _sqlServerContext.MembersInformation.Remove(entity);
+                return await _sqlServerContext.SaveChangesAsync();
+            }
             return 0;
         }
     }

@@ -14,5 +14,7 @@ namespace DragonFly.Services.Interfaces
         Task<MembersInformationViewModel> GetMembersInformationByMobile(string mobile);
         Task<IEnumerable<MembersInformationViewModel>> GetAllMembersInformation();
         Task<MembersInformation> UpdateMemberInformation(MembersInformation members);
+        Task<int> UpdateBulkMembersInfo(List<MembersInformation> members);
+        Task<int> DeleteMemberInfo(string mobile);
     }
 }
