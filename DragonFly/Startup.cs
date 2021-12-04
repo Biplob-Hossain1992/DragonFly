@@ -52,7 +52,7 @@ namespace DragonFly
 
             services.AddMvc();
 
-            services.AddCors(options =>
+            _services.AddCors(options =>
             {
                 options.AddPolicy("Policy1",
                     builder =>
@@ -64,7 +64,7 @@ namespace DragonFly
                 options.AddPolicy("AnotherPolicy",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:44370/")
+                        builder.WithOrigins("http://localhost:47009/")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                     });
