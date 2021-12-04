@@ -47,6 +47,11 @@ namespace DragonFly.Services
             return await _membersInformationRepository.UpdateBulkMembersInfo(members);
         }
 
+        public async Task<int> UpdateBulkWithDiferrentValue(List<MembersInformation> members)
+        {
+            return await _membersInformationRepository.UpdateBulkWithDiferrentValue(members);
+        }
+
         public async Task<int> DeleteMemberInfo(string mobile)
         {
             return await _membersInformationRepository.DeleteMemberInfo(mobile);

@@ -66,5 +66,27 @@ namespace DragonFly.Controllers
 
             return response.ToHttpCreatedResponse();
         }
+
+        [HttpPut]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        [Route("UpdateBulkWithDiferrentValue")]
+        public async Task<IActionResult> UpdateBulkWithDiferrentValue([FromBody] List<MembersInformation> members)
+        {
+            var response = new SingleResponseModel<int>();
+            try
+            {
+                var data = await _membersInformationService.UpdateBulkWithDiferrentValue(members);
+                response.Model = data;
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = ex.InnerException.Message.ToString();
+            }
+
+            return response.ToHttpCreatedResponse();
+        }
     }
 }

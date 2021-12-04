@@ -97,6 +97,7 @@ namespace DragonFly.Infrastructure.Data
             return null;
         }
 
+        //this bulk update will work properly when share and amount will be the same for all objects
         public async Task<int> UpdateBulkMembersInfo(List<MembersInformation> members)
         {
             var mobileNumbers = (from d in members
@@ -114,6 +115,29 @@ namespace DragonFly.Infrastructure.Data
                 return 1;
             }   
             return 0;
+        }
+
+        //this bulk update for all object with diferrent value 
+        public async Task<int> UpdateBulkWithDiferrentValue(List<MembersInformation> members)
+        {
+            var mobileArray = members.Select(m => m.Mobile).ToArray();
+            //var mobile = (from m in members
+                         //select m.Mobile).ToArray();
+
+            var data = _sqlServerContext.MembersInformation.Where(x => mobileArray.Contains(x.Mobile));
+
+            foreach (var item in data)
+            {
+                var modifyRequestBody = members.Where(m => m.Mobile.Equals(item.Mobile)).FirstOrDefault();
+
+                item.Share = modifyRequestBody.Share;
+                item.Amount = modifyRequestBody.Amount;
+
+                _sqlServerContext.MembersInformation.Update(item);
+            }
+            var entity = await _sqlServerContext.SaveChangesAsync();
+
+            return entity;
         }
 
         public async Task<int> DeleteMemberInfo(string mobile)
