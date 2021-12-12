@@ -17,17 +17,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User Interface", "User Inte
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DragonFly", "DragonFly", "{053FAB53-27A3-4FDE-A33F-C47F86034718}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonFly.Domain.Entities", "DragonFly.Domain.Entities\DragonFly.Domain.Entities.csproj", "{A54411DE-A913-4757-AFFF-9C1AF48429B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DragonFly.Domain.Entities", "DragonFly.Domain.Entities\DragonFly.Domain.Entities.csproj", "{A54411DE-A913-4757-AFFF-9C1AF48429B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonFly.Domain.Interfaces", "DragonFly.Domain.Interfaces\DragonFly.Domain.Interfaces.csproj", "{89B616E6-08ED-427B-87D5-4208785A6117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DragonFly.Domain.Interfaces", "DragonFly.Domain.Interfaces\DragonFly.Domain.Interfaces.csproj", "{89B616E6-08ED-427B-87D5-4208785A6117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonFly.Infrastructure.Data", "DragonFly.Infrastructure.Data\DragonFly.Infrastructure.Data.csproj", "{521974D2-836E-473A-9C7C-459BD67B86D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DragonFly.Infrastructure.Data", "DragonFly.Infrastructure.Data\DragonFly.Infrastructure.Data.csproj", "{521974D2-836E-473A-9C7C-459BD67B86D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonFly.Context", "DragonFly.Context\DragonFly.Context.csproj", "{0DB09250-1B61-4D63-8603-1B3197391FB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DragonFly.Context", "DragonFly.Context\DragonFly.Context.csproj", "{0DB09250-1B61-4D63-8603-1B3197391FB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonFly.Services.Interfaces", "DragonFly.Services.Interfaces\DragonFly.Services.Interfaces.csproj", "{F0139FCE-8219-4017-8B13-FFDA07D13730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DragonFly.Services.Interfaces", "DragonFly.Services.Interfaces\DragonFly.Services.Interfaces.csproj", "{F0139FCE-8219-4017-8B13-FFDA07D13730}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonFly.Services", "DragonFly.Services\DragonFly.Services.csproj", "{CF3CC74E-ADA1-4A53-8E71-770038664477}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DragonFly.Services", "DragonFly.Services\DragonFly.Services.csproj", "{CF3CC74E-ADA1-4A53-8E71-770038664477}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
