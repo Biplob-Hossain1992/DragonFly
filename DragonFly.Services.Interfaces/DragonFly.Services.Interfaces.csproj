@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DragonFly.Domain.Entities\DragonFly.Domain.Entities.csproj" />
+    <ProjectReference Include="..\DragonFly.Domain.Interfaces\DragonFly.Domain.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
