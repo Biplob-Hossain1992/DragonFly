@@ -9,6 +9,7 @@ namespace DragonFly.Context
         {
                 
         }
-        public DbSet<Test> Test { get; set; }
+        //public DbSet<Test> Test { get; set; }
+        public DbSet<MemberInformation> MemberInformation { get; set; }
     }
 }

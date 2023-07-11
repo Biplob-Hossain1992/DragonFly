@@ -1,7 +1,4 @@
-﻿//var baseURL = "http://localhost:10053/";
-var baseURL = "https://localhost:44359/";
-//var baseURL = "https://uptax.info/";
-//var baseURL = "https://demo.uptax.info/";
+﻿var baseURL = "https://localhost:44355/";
 $('.datepicker').daterangepicker({
     "locale": {
         "format": "DD MMM YYYY",

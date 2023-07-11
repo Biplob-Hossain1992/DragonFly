@@ -33,7 +33,7 @@
             <div class="card-body">
                 <h2 class="h2_title" style="margin: 25px auto;" align="Center"> Add New Member</h2>
                 <div class="col align-self-center">
-                    <form action="" id="frmUsers">
+                    <form action="" id="frmMember">
                         <div class="row">
                             <div class="form-group col-sm-3">
                                 <input type="hidden" id="Id" />
@@ -71,7 +71,31 @@
                         </div>
                     </form>
                 </div>
-
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <span id="totalCount" style="display:none;">0</span>
+                        <br />
+                        <table id="tblMembers" style="width:100%;" class="table table-bordered mb-0 table-centered table-hover table-sm">
+                            <thead>
+                                <tr style="line-height:1.6;background-color: aliceblue;">
+                                    <th>SL No</th>
+                                    <th>English</th>
+                                    <th>Bangla</th>
+                                    <th>Date of Birth</th>
+                                    <th>NID No</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -81,20 +105,24 @@
     <script type="text/javascript">
 
         (() => {
-            $("#frmUsers").validate({
+            getMemberData();
+            $("#frmMember").validate({
                 rules: {
-                    fullName: { required: true },
+                    englishName: { required: true },
+                    banglaName: { required: true },
                     dob: { required: true },
                     nidNo: { required: true },
                     phone: { required: true },
-                    email: { required: true },
+                    address: { required: true }
                 },
                 messages: {
-                    fullName: 'Full Name is required',
+                    englishName: 'English Name is required',
+                    banglaName: 'Bangla Name is required',
                     dob: 'Date Of Birth is required',
                     nidNo: 'National Id is required',
                     phone: 'Phone No is required',
                     email: 'Email is required',
+                    address: 'Address is required'
                 },
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
@@ -109,13 +137,80 @@
                 }
             });
         })()
-        function clearUser() {
+        function clear() {
             $("#Id").val(0);
-            $("#fullName").val("");
+            $("#englishName").val("");
+            $("#banglaName").val("");
             $("#dob").val("");
             $("#nidNo").val("");
             $("#phone").val("");
             $("#email").val("");
+            $("#address").val("");
+        }
+        $(document).on("click", "#btnSave", function () {
+            if ($("#frmMember").valid()) {
+                var requestBody = {
+                    NameInEnglish: $("#englishName").val(),
+                    NameInBangla: $("#banglaName").val(),
+                    DateOfBirth: $("#dob").val(),
+                    NIDNumber: $("#nidNo").val(),
+                    Phone: $("#phone").val(),
+                    Email: $("#email").val(),
+                    Address: $("#address").val()
+                };
+                $("#btnSave").prop("disabled", true);
+                $.ajax({
+                    url: '/Member/Create',
+                    dataType: 'json',
+                    data: requestBody,
+                    type: 'post',
+                    success: function (res) {
+
+                        if (res.type == "Success") {
+                            toastr.success(res.message, res.type);
+                            $("#btnSave").prop("disabled", false);
+                            clear();
+                        }
+                        else {
+                            toastr.error(res.message, res.type);
+                        }
+                    },
+                    error: function (request, status, error) {
+                        $("#btnSave").prop("disabled", false);
+                    }
+                });
+            }
+        });
+        function getMemberData() {
+            var num = 0;
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: '/Member/GetAllMembers',
+                dataType: "json",
+                type: 'get',
+                success: function (res) {
+                    $("#totalCount").html("Total: " + res.length);
+                    $("#totalCount").show();
+                    $("#tblMembers tbody").empty();
+                    let content = ``;
+                    $.each(res, function (key, val) {
+                        content += `<tr>
+                                        <td>${++num}.</td>
+                                        <td>${val.nameInEnglish}</td>
+                                        <td>${val.nameInBangla}</td>
+                                        <td>${val.dateOfBirth}</td>
+                                        <td>${val.nidNumber}</td>
+                                        <td>${val.phone}</td>
+                                        <td>${val.email}</td>
+                                        <td>${val.address}</td>
+                                    </tr>`;
+                    });
+                    $("#tblMembers tbody").append(content);
+                }
+            });
         }
     </script>
 }
