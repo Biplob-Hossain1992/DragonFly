@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Member Details";
+    ViewData["Title"] = "Share Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -33,36 +33,48 @@
             <div class="card-body">
                 <h2 class="h2_title" style="margin: 25px auto;" align="Center"> Add New Member</h2>
                 <div class="col align-self-center">
-                    <form action="" id="frmMember">
+                    <form action="" id="frmShareDetails">
                         <div class="row">
                             <div class="form-group col-sm-3">
                                 <input type="hidden" id="Id" />
-                                <label for="englishName">Name In English</label>
-                                <input type="text" name="englishName" id="englishName" class="form-control" placeholder="Enter Your Name">
+                                <label for="memberId">Member</label>
+                                <select class="form-control" name="memberId" id="memberId"></select>
                             </div>
                             <div class="form-group col-sm-3">
-                                <label for="banglaName">Name In Bangla</label>
-                                <input type="text" name="banglaName" id="banglaName" class="form-control" placeholder="Enter Your Name">
+                                <label for="year">Year</label>
+                                <select class="form-control" name="year" id="year">
+                                    <option selected value="">Select...</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                </select>
                             </div>
                             <div class="form-group col-sm-2">
-                                <label for="dob">Date Of Birth</label>
-                                <input type="text" name="dob" id="dob" class="form-control datepicker" placeholder="">
+                                <label for="month">Month</label>
+                                <select class="form-control" name="month" id="month">
+                                    <option selected value="">Select...</option>
+                                    <option value="1">Janaury</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
                             </div>
                             <div class="form-group col-sm-2">
-                                <label for="nidNo">NID Number</label>
-                                <input type="text" name="nidNo" id="nidNo" class="form-control">
+                                <label for="noOfShare">Share</label>
+                                <input type="text" name="noOfShare" id="noOfShare" class="form-control">
                             </div>
                             <div class="form-group col-sm-2">
-                                <label for="phone">Phone</label>
-                                <input type="text" name="phone" class="form-control" id="phone">
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <label for="email">Email </label>
-                                <input type="email" name="email" id="email" class="form-control">
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <label for="address">Address </label>
-                                <textarea class="form-control" rows="1" id="address"></textarea>
+                                <label for="amount">Amount</label>
+                                <input type="text" name="amount" class="form-control" id="amount">
                             </div>
                         </div>
                         <br>
@@ -83,13 +95,11 @@
                             <thead>
                                 <tr style="line-height:1.6;background-color: aliceblue;">
                                     <th>SL No</th>
-                                    <th>English</th>
-                                    <th>Bangla</th>
-                                    <th>Date of Birth</th>
-                                    <th>NID No</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Address</th>
+                                    <th>Member</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>No Of Share</th>
+                                    <th>Amount</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -106,24 +116,23 @@
     <script type="text/javascript">
         let response = "";
         (() => {
-            getMemberData();
-            $("#frmMember").validate({
+            getShareData();
+            getAllMembers();
+            $("#year").val(new Date().getFullYear());
+            $("#frmShareDetails").validate({
                 rules: {
-                    englishName: { required: true },
-                    banglaName: { required: true },
-                    dob: { required: true },
-                    nidNo: { required: true },
-                    phone: { required: true },
-                    address: { required: true }
+                    memberId: { required: true },
+                    year: { required: true },
+                    month: { required: true },
+                    noOfShare: { required: true },
+                    amount: { required: true }
                 },
                 messages: {
-                    englishName: 'English Name is required',
-                    banglaName: 'Bangla Name is required',
-                    dob: 'Date Of Birth is required',
-                    nidNo: 'National Id is required',
-                    phone: 'Phone No is required',
-                    email: 'Email is required',
-                    address: 'Address is required'
+                    memberId: 'Member is required',
+                    year: 'Year is required',
+                    month: 'Month is required',
+                    noOfShare: 'Share is required',
+                    amount: 'Amount is required'
                 },
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
@@ -138,31 +147,41 @@
                 }
             });
         })()
+        function getAllMembers() {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: '/Member/GetAllMembers',
+                dataType: "json",
+                type: 'get',
+                success: function (res) {
+                    $("#memberId").empty();
+                    let option = `<option value="">Select...</option>`;
+                    $.each(res, function (key, val) {
+                        option += `<option value="${val.id}">${val.nameInEnglish}</option>`;
+                    });
+                    $("#memberId").append(option);
+                }
+            });
+        }
         function clear() {
             $("#Id").val(0);
-            $("#englishName").val("");
-            $("#banglaName").val("");
-            $("#dob").val("");
-            $("#nidNo").val("");
-            $("#phone").val("");
-            $("#email").val("");
-            $("#address").val("");
         }
         $(document).on("click", "#btnSave", function () {
-            if ($("#frmMember").valid()) {
+            if ($("#frmShareDetails").valid()) {
                 var requestBody = {
-                    NameInEnglish: $("#englishName").val(),
-                    NameInBangla: $("#banglaName").val(),
-                    DateOfBirth: $("#dob").val(),
-                    NIDNumber: $("#nidNo").val(),
-                    Phone: $("#phone").val(),
-                    Email: $("#email").val(),
-                    Address: $("#address").val(),
+                    MemberId: +$("#memberId").val(),
+                    Year: +$("#year").val(),
+                    Month: +$("#month").val(),
+                    NoOfShare: +$("#noOfShare").val(),
+                    Amount: +$("#amount").val(),
                     Id: +$("#Id").val()
                 };
                 $("#btnSave").prop("disabled", true);
                 $.ajax({
-                    url: '/Member/Create',
+                    url: '/Member/CreateShare',
                     dataType: 'json',
                     data: requestBody,
                     type: 'post',
@@ -171,7 +190,7 @@
                             toastr.success(res.message, res.type);
                             $("#btnSave").prop("disabled", false);
                             clear();
-                            getMemberData();
+                            getShareData();
                         }
                         else {
                             toastr.error(res.message, res.type);
@@ -183,14 +202,14 @@
                 });
             }
         });
-        function getMemberData() {
+        function getShareData() {
             var num = 0;
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                url: '/Member/GetAllMembers',
+                url: '/Member/GetAllShares',
                 dataType: "json",
                 type: 'get',
                 success: function (res) {
@@ -202,13 +221,11 @@
                     $.each(res, function (key, val) {
                         content += `<tr>
                                         <td>${++num}.</td>
-                                        <td>${val.nameInEnglish}</td>
-                                        <td>${val.nameInBangla}</td>
-                                        <td>${val.dateOfBirth}</td>
-                                        <td>${val.nidNumber}</td>
-                                        <td>${val.phone}</td>
-                                        <td>${val.email}</td>
-                                        <td>${val.address}</td>
+                                        <td>${val.memberName}</td>
+                                        <td>${val.year}</td>
+                                        <td>${val.monthName}</td>
+                                        <td>${val.noOfShare}</td>
+                                        <td>${val.amount}</td>
                                         <td class="text-center"><button type="button" onclick="editRow(${val.id})" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>&nbsp;Edit</button></td>
                                     </tr>`;
                     });

@@ -3,6 +3,7 @@
     #nullable disable
     public class VmMemberInformation
     {
+        public int Id { get; set; }
         public string NameInEnglish { get; set; }
         public string NameInBangla { get; set; }
         public string DateOfBirth { get; set; } 
